@@ -22,17 +22,18 @@ for(i in 1:N) {
         for(k in j:N) {
             if(i == divisor_sums[j] + divisor_sums[k]) {
                 is_abundant <- TRUE
-                j <- N+1
-                k <- N+1
+                break
             }
         }
     }
     if(is_abundant) {
         abundant <- c(abundant, i)
+        cat(i, "is abundant")
     }
     else {
         non_abundant <- c(non_abundant, i)
         answer <- answer + i
+        cat(i, "is non-abundant")
     }
 }
 
