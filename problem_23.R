@@ -3,37 +3,37 @@
 
 #Non-abundant sums
 
+rm(list=ls())
 library(numbers)
 library(gmp)
 
-non_abundant <- c()
-abundant <- c()
 answer <- 0
 N <- 28123
-divisor_sums <- rep(0, N)
+abundant_num <- c()
 
 for(i in 1:N) {
-    divisor_sums[i] <- sum(divisors(i)) - i
+    divisor_sum <- sum(divisors(i)) - i
+    if(divisor_sum > i) {
+        abundant_num <- c(abundant_num, i)
+    }
+}
+
+abundant_sum <- rep(FALSE, N)
+
+for(i in 1:length(abundant_num)) {
+    for(j in i:length(abundant_num)) {
+        if(abundant_num[i] + abundant_num[j] <= N) {
+            abundant_sum[abundant_num[i] + abundant_num[j]] <- TRUE
+        }
+        else {
+            break
+        }
+    }
 }
 
 for(i in 1:N) {
-    is_abundant <- FALSE
-    for(j in 1:N) {
-        for(k in j:N) {
-            if(i == divisor_sums[j] + divisor_sums[k]) {
-                is_abundant <- TRUE
-                break
-            }
-        }
-    }
-    if(is_abundant) {
-        abundant <- c(abundant, i)
-        cat(i, "is abundant")
-    }
-    else {
-        non_abundant <- c(non_abundant, i)
+    if(!abundant_sum[i]) {
         answer <- answer + i
-        cat(i, "is non-abundant")
     }
 }
 
